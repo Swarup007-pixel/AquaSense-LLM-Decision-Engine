@@ -5,6 +5,7 @@ import model
 from system_prompt import SYSTEM_PROMPT
 from pydantic import BaseModel, Field
 from enum import Enum 
+import json
 
 
 #---------------------------------------model----------------------------------------------------------------------
@@ -57,9 +58,9 @@ sensor_data = {
   "pump_runtime_minutes": 0,
   "previous_water_level_percent": 25
 }
-#-------------------------------------------------invoke and get response --------------------------------------------------------------
+#-------------------------------------------------invoke with sysytem prompt and get response --------------------------------------------------------------
 decision = structured_llm.invoke([
     ("system", SYSTEM_PROMPT),
-    ("human", sensor_data.model_dump_json())
+    ("human", json.dumps(sensor_data))
 ])
 print(decision.model_dump_json(indent=2))
